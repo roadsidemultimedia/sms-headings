@@ -41,8 +41,18 @@ class SMS_Heading extends PageLinesSection {
 
 	function section_opts(){
 
-			// $size_name_choices = $sms_options['fonts']['size-name-list'];
 
+			global $sms_utils;
+			$sms_options = get_option('sms_options');
+
+			// $size_name_list = $sms_utils->convert_redux_choices_to_dms( $sms_options['fonts']['size-name-list'] );
+			$weight_name_choices = $sms_utils->convert_redux_choices_to_dms( $sms_options['fonts']['weight-name-list'] );
+			$text_align_choices = $sms_utils->convert_redux_choices_to_dms( $sms_options['fonts']['text-alignment-list'] );
+			$line_height_choices = $sms_utils->convert_redux_choices_to_dms( $sms_options['fonts']['line-height-list'] );
+
+			$text_transform_choices = $sms_utils->filter_out_redundant_css_properties( $sms_options['fonts']['text-transform-list'] );
+			$text_transform_choices = $sms_utils->convert_redux_choices_to_dms( $text_transform_choices );
+			
 			$selector_choices = array(
 				'h1' => array( 'name' => 'H1 (use only one per page)' ),
 				'h2' => array( 'name' => 'H2' ),
@@ -50,15 +60,6 @@ class SMS_Heading extends PageLinesSection {
 				'h4' => array( 'name' => 'H4' ),
 				'h5' => array( 'name' => 'H5' ),
 				'h6' => array( 'name' => 'H6' ),
-			);
-
-			$text_align_choices = array(
-				'align-left'      => array( 'name' => 'Left' ),
-				'align-center'    => array( 'name' => 'Center' ),
-				'align-right'     => array( 'name' => 'Right' ),
-				'align-justify'   => array( 'name' => 'Justify' ),
-				'align-initial'   => array( 'name' => 'Initial' ),
-				'align-inherit'   => array( 'name' => 'Inherit' ),
 			);
 
 			$value_group_array = array(
@@ -71,6 +72,11 @@ class SMS_Heading extends PageLinesSection {
 					'key'     => 'enable',
 					'title'   => 'Enable subheading?',
 					'default' => false
+				),
+				array(
+					'type'          => 'text',
+					'title'         => 'Text',
+					'key'           => 'text',
 				),
 				array(
 					'type'          => 'select',
@@ -90,14 +96,21 @@ class SMS_Heading extends PageLinesSection {
 				),
 				array(
 					'type'          => 'select',
-					'title'         => 'Alignment Override',
+					'title'         => 'Alignment (Override)',
 					'key'           => 'align',
 					'opts'          => $text_align_choices,
 				),
 				array(
-					'type'          => 'text',
-					'title'         => 'Text',
-					'key'           => 'text',
+					'type'          => 'select',
+					'title'         => 'Font Weight (Override)',
+					'key'           => 'weight',
+					'opts'          => $weight_name_choices,
+				),
+				array(
+					'type'          => 'select',
+					'title'         => 'Text Transform (Override)',
+					'key'           => 'text_transform',
+					'opts'          => $text_transform_choices,
 				),
 			);
 
@@ -139,18 +152,26 @@ class SMS_Heading extends PageLinesSection {
 		}
 		function section_template(){
 
-			$heading1_type       = ($this->opt('heading1_type')) ? $this->opt('heading1_type') : 'primary';
-			$heading1_selector   = ($this->opt('heading1_selector')) ? $this->opt('heading1_selector') : 'h2';
-			$heading1_text       = ($this->opt('heading1_text')) ? $this->opt('heading1_text') : 'Default heading text';
-			$heading1_align       = ($this->opt('heading1_align')) ? ' '.$this->opt('heading1_align') : '';
 
-			$heading2_type       = ($this->opt('heading2_type')) ? $this->opt('heading2_type') : 'secondary';
-			$heading2_selector   = ($this->opt('heading2_selector')) ? $this->opt('heading2_selector') : 'h3';
-			$heading2_text       = ($this->opt('heading2_text')) ? $this->opt('heading2_text') : 'Default subheading text';
-			$heading2_align       = ($this->opt('heading2_align')) ? ' '.$this->opt('heading2_align') : '';
+			$heading1_type            = ($this->opt('heading1_type')) ? $this->opt('heading1_type') : 'primary';
+			$heading1_selector        = ($this->opt('heading1_selector')) ? $this->opt('heading1_selector') : 'h2';
+			$heading1_text            = ($this->opt('heading1_text')) ? $this->opt('heading1_text') : 'Default heading text';
+			$heading1_align           = ($this->opt('heading1_align')) ? ' align-'.$this->opt('heading1_align') : '';
+			$heading1_weight          = ($this->opt('heading1_weight')) ? ' fw-'.$this->opt('heading1_weight') : '';
+			$heading1_text_transform  = ($this->opt('heading1_text_transform')) ? ' text-'.$this->opt('heading1_text_transform') : '';
+  
+			$heading2_type            = ($this->opt('heading2_type')) ? $this->opt('heading2_type') : 'secondary';
+			$heading2_selector        = ($this->opt('heading2_selector')) ? $this->opt('heading2_selector') : 'h3';
+			$heading2_text            = ($this->opt('heading2_text')) ? $this->opt('heading2_text') : 'Default subheading text';
+			$heading2_align           = ($this->opt('heading2_align')) ? ' align-'.$this->opt('heading2_align') : '';
+			$heading2_weight          = ($this->opt('heading2_weight')) ? ' fw-'.$this->opt('heading2_weight') : '';
+			$heading2_text_transform  = ($this->opt('heading2_text_transform')) ? ' text-'.$this->opt('heading2_text_transform') : '';
 
-			$output_heading1 = sprintf('<%2$s class="sms-heading sms-heading--%1$s%4$s">%3$s</%2$s>', $heading1_type, $heading1_selector, $heading1_text, $heading1_align);
-			$output_heading2 = sprintf('<%2$s class="sms-heading sms-heading--%1$s%4$s">%3$s</%2$s>', $heading2_type, $heading2_selector, $heading2_text, $heading2_align);
+			$heading1_classes = "{$heading1_align}{$heading1_weight}{$heading1_text_transform}";
+			$heading2_classes = "{$heading2_align}{$heading2_weight}{$heading2_text_transform}";
+
+			$output_heading1 = sprintf('<%2$s class="sms-heading sms-heading--%1$s%4$s">%3$s</%2$s>', $heading1_type, $heading1_selector, $heading1_text, $heading1_classes);
+			$output_heading2 = sprintf('<%2$s class="sms-heading sms-heading--%1$s%4$s">%3$s</%2$s>', $heading2_type, $heading2_selector, $heading2_text, $heading2_classes);
 
 			if( $this->opt('heading2_enable') ){
 				$output = '<hgroup>'.$output_heading1.$output_heading2.'</hgroup>';
