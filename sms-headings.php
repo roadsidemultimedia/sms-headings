@@ -52,8 +52,11 @@ class SMS_Heading extends PageLinesSection {
 
 			$text_transform_choices = $sms_utils->filter_out_redundant_css_properties( $sms_options['fonts']['text-transform-list'] );
 			$text_transform_choices = $sms_utils->convert_redux_choices_to_dms( $text_transform_choices );
+
+			$heading_type_choices = $sms_utils->convert_redux_choices_to_dms( $sms_options['fonts']['heading-type-list'] );
+
 			
-			$selector_choices = array(
+			$tag_choices = array(
 				'h1' => array( 'name' => 'H1 (use only one per page)' ),
 				'h2' => array( 'name' => 'H2' ),
 				'h3' => array( 'name' => 'H3' ),
@@ -90,9 +93,9 @@ class SMS_Heading extends PageLinesSection {
 				),
 				array(
 					'type'          => 'select',
-					'title'         => 'Selector',
-					'key'           => 'selector',
-					'opts'          => $selector_choices,
+					'title'         => 'tag',
+					'key'           => 'tag',
+					'opts'          => $tag_choices,
 				),
 				array(
 					'type'          => 'select',
@@ -129,17 +132,22 @@ class SMS_Heading extends PageLinesSection {
 				foreach ($field_array as $field) {
 
 					// Only add enable option for subheading on second iteration
-					if( $i == 1 ){
-						if( $field['key'] == 'enable' )
-							continue;
+					if( $i == 1 && $field['key'] == 'enable' ){
+						$temp[$j] = array(
+							'title' => "Enable visual indicators?",
+							'key'   => "heading{$i}_{$field['key']}",
+							'type'  => $field['type'],
+							'opts'  => $field['opts'],
+							'scope'	=> 'global',
+						);
+					} else {
+						$temp[$j] = array(
+							'title' => $field['title'],
+							'key'   => "heading{$i}_{$field['key']}",
+							'type'  => $field['type'],
+							'opts'  => $field['opts'],
+						);
 					}
-
-					$temp[$j] = array(
-						'title' => $field['title'],
-						'key'   => "heading{$i}_{$field['key']}",
-						'type'  => $field['type'],
-						'opts'  => $field['opts'],
-					);
 					$j++;
 
 				}
@@ -158,9 +166,10 @@ class SMS_Heading extends PageLinesSection {
 		}
 		function section_template(){
 
+			$sms_options = get_option('sms_options');
 
 			$heading1_type            = ($this->opt('heading1_type')) ? $this->opt('heading1_type') : 'primary';
-			$heading1_selector        = ($this->opt('heading1_selector')) ? $this->opt('heading1_selector') : 'h2';
+			$heading1_tag             = ($this->opt('heading1_tag')) ? $this->opt('heading1_tag') : 'h2';
 			$heading1_text            = ($this->opt('heading1_text')) ? $this->opt('heading1_text') : 'Default heading text';
 			$heading1_align           = ($this->opt('heading1_align')) ? ' align-'.$this->opt('heading1_align') : '';
 			$heading1_weight          = ($this->opt('heading1_weight')) ? ' fw-'.$this->opt('heading1_weight') : '';
@@ -168,7 +177,7 @@ class SMS_Heading extends PageLinesSection {
 			$heading1_italic          = ($this->opt('heading1_italic')) ? ' text-italic' : '';
   
 			$heading2_type            = ($this->opt('heading2_type')) ? $this->opt('heading2_type') : 'secondary';
-			$heading2_selector        = ($this->opt('heading2_selector')) ? $this->opt('heading2_selector') : 'h3';
+			$heading2_tag             = ($this->opt('heading2_tag')) ? $this->opt('heading2_tag') : 'h3';
 			$heading2_text            = ($this->opt('heading2_text')) ? $this->opt('heading2_text') : 'Default subheading text';
 			$heading2_align           = ($this->opt('heading2_align')) ? ' align-'.$this->opt('heading2_align') : '';
 			$heading2_weight          = ($this->opt('heading2_weight')) ? ' fw-'.$this->opt('heading2_weight') : '';
@@ -181,24 +190,25 @@ class SMS_Heading extends PageLinesSection {
 
 			$indicator_output = '';
 			// Only show indicators to administrators
-			if (current_user_can('administrator')){
+			if ( current_user_can('administrator') && pl_setting('heading1_enable') ){
 				
 				$indicator_output .= "<div class='row'>";
 
 				$indicator_output .= "<div class='sms-indicator sms-indicator-light'>Heading #1</div>";
 
 				if( $this->opt('heading1_type') )
-					$indicator_output .= "<div class='sms-indicator'><i class='fa fa-header'></i><span><strong>".ucfirst($this->opt('heading1_type'))."</strong></span></div>";
-				if( $this->opt('heading1_selector') )
-					$indicator_output .= "<div class='sms-indicator'><i class='fa fa-tag'></i><span>selector: <strong>".strtoupper($this->opt('heading1_selector'))."</strong></span></div>";
-				if( $this->opt('heading1_align') )
-					$indicator_output .= "<div class='sms-indicator'><i class='fa fa-align-{$this->opt('heading1_align')}'></i><span>align: <strong>{$this->opt('heading1_align')}</strong></span></div>";
+					$indicator_output .= "<div class='sms-indicator'><i class='fa fa-header'></i><span><strong>". $sms_options['fonts']['heading-type-list'][$this->opt('heading1_type')]."</strong></span></div>";
+				if( $this->opt('heading1_tag') )
+					$indicator_output .= "<div class='sms-indicator'><i class='fa fa-tag'></i><span>tag: <strong>".strtoupper($this->opt('heading1_tag'))."</strong></span></div>";
+				if( $this->opt('heading1_align') ){
+					$indicator_output .= "<div class='sms-indicator'><i class='fa fa-align-{$this->opt('heading1_align')}'></i><span>alignment: <strong>{$this->opt('heading1_align')}</strong></span></div>";
+				}
 				if( $this->opt('heading1_italic') )
-					$indicator_output .= "<div class='sms-indicator'><i class='fa fa-italic'></i><span>italicized: <strong>yes</strong></span></div>";
+					$indicator_output .= "<div class='sms-indicator'><i class='fa fa-italic'></i><span>italicized</span></div>";
 				if( $this->opt('heading1_weight') )
 					$indicator_output .= "<div class='sms-indicator'><i class='fa fa-bold'></i><span>weight: <strong>{$this->opt('heading1_weight')}</strong></span></div>";
 				if( $this->opt('heading1_text_transform') )
-					$indicator_output .= "<div class='sms-indicator sms-heading-text-transform-on'><i class='fa fa-text-height'></i><span>text transform: <strong>{$this->opt('heading1_text_transform')}</strong></span></div>";
+					$indicator_output .= "<div class='sms-indicator sms-heading-text-transform-on'><i class='fa fa-text-height'></i><span>{$this->opt('heading1_text_transform')}</span></div>";
 
 				$indicator_output .= "</div>";
 
@@ -209,17 +219,17 @@ class SMS_Heading extends PageLinesSection {
 					$indicator_output .= "<div class='sms-indicator sms-indicator-light'>Heading #2</div>";
 
 					if( $this->opt('heading2_type') )
-						$indicator_output .= "<div class='sms-indicator'><i class='fa fa-header'></i><span><strong>".ucfirst($this->opt('heading2_type'))."</strong></span></div>";
-					if( $this->opt('heading2_selector') )
-						$indicator_output .= "<div class='sms-indicator'><i class='fa fa-tag'></i><span>selector: <strong>".strtoupper($this->opt('heading2_selector'))."</strong></span></div>";
+						$indicator_output .= "<div class='sms-indicator'><i class='fa fa-header'></i><span><strong>".$sms_options['fonts']['heading-type-list'][$this->opt('heading2_type')]."</strong></span></div>";
+					if( $this->opt('heading2_tag') )
+						$indicator_output .= "<div class='sms-indicator'><i class='fa fa-tag'></i><span>tag: <strong>".strtoupper($this->opt('heading2_tag'))."</strong></span></div>";
 					if( $this->opt('heading2_align') )
-						$indicator_output .= "<div class='sms-indicator'><i class='fa fa-align-{$this->opt('heading2_align')}'></i><span>align: <strong>{$this->opt('heading2_align')}</strong></span></div>";
+						$indicator_output .= "<div class='sms-indicator'><i class='fa fa-align-{$this->opt('heading2_align')}'></i><span>alignment: <strong>{$this->opt('heading2_align')}</strong></span></div>";
 					if( $this->opt('heading2_italic') )
-						$indicator_output .= "<div class='sms-indicator'><i class='fa fa-italic'></i><span>italicized: <strong>yes</strong></span></div>";
+						$indicator_output .= "<div class='sms-indicator'><i class='fa fa-italic'></i><span>italicized</span></div>";
 					if( $this->opt('heading2_weight') )
 						$indicator_output .= "<div class='sms-indicator'><i class='fa fa-bold'></i><span>weight: <strong>{$this->opt('heading2_weight')}</strong></span></div>";
 					if( $this->opt('heading2_text_transform') )
-						$indicator_output .= "<div class='sms-indicator sms-heading-text-transform-on'><i class='fa fa-text-height'></i><span>text transform: <strong>{$this->opt('heading2_text_transform')}</strong></span></div>";
+						$indicator_output .= "<div class='sms-indicator sms-heading-text-transform-on'><i class='fa fa-text-height'></i><span>{$this->opt('heading2_text_transform')}</span></div>";
 
 					$indicator_output .= "</div>";
 
@@ -244,9 +254,10 @@ class SMS_Heading extends PageLinesSection {
 							font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;
 							background: rgba(0,0,0,0.5);
 						}
-						.section-sms-headings:hover .sms-heading-indicator-wrap{
+						.drag-drop-editing .section-sms-headings:hover .sms-heading-indicator-wrap{
 							visibility: visible;
 							display: block;
+							z-index: 101;
 						}
 
 						.sms-heading-indicator-wrap .row ~ .row{
@@ -289,10 +300,10 @@ class SMS_Heading extends PageLinesSection {
 			}
 
 
-			$output_heading1 = sprintf('<%2$s class="sms-heading sms-heading--%1$s%4$s">%3$s</%2$s>', $heading1_type, $heading1_selector, $heading1_text, $heading1_classes);
+			$output_heading1 = sprintf('<%2$s class="sms-heading sms-heading--%1$s%4$s">%3$s</%2$s>', $heading1_type, $heading1_tag, $heading1_text, $heading1_classes);
 			
 		
-			$output_heading2 = sprintf('<%2$s class="sms-heading sms-heading--%1$s%4$s">%3$s</%2$s>', $heading2_type, $heading2_selector, $heading2_text, $heading2_classes);
+			$output_heading2 = sprintf('<%2$s class="sms-heading sms-heading--%1$s%4$s">%3$s</%2$s>', $heading2_type, $heading2_tag, $heading2_text, $heading2_classes);
 
 			if( $this->opt('heading2_enable') ){
 				$output = '<hgroup>'.$output_heading1.$output_heading2.'</hgroup>';
