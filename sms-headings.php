@@ -45,6 +45,9 @@ class SMS_Heading extends PageLinesSection {
 			global $sms_utils;
 			$sms_options = get_option('sms_options');
 
+			if( !$sms_utils ){
+				return;
+			}
 			// $size_name_list = $sms_utils->convert_redux_choices_to_dms( $sms_options['fonts']['size-name-list'] );
 			$weight_name_choices = $sms_utils->convert_redux_choices_to_dms( $sms_options['fonts']['weight-name-list'] );
 			$text_align_choices = $sms_utils->convert_redux_choices_to_dms( $sms_options['fonts']['text-alignment-list'] );
@@ -93,7 +96,7 @@ class SMS_Heading extends PageLinesSection {
 				),
 				array(
 					'type'          => 'select',
-					'title'         => 'tag',
+					'title'         => 'HTML Tag',
 					'key'           => 'tag',
 					'opts'          => $tag_choices,
 				),
@@ -120,6 +123,17 @@ class SMS_Heading extends PageLinesSection {
 					'title'         => 'Text Transform (Override)',
 					'key'           => 'text_transform',
 					'opts'          => $text_transform_choices,
+				),
+				array(
+					'type'          => 'text',
+					'title'         => 'Link URL',
+					'key'           => 'link_url',
+				),
+				array(
+					'type'          => 'check',
+					'key'           => 'link_target',
+					'title'         => 'Open link in new window?',
+					'default'       => false
 				),
 			);
 
@@ -175,6 +189,8 @@ class SMS_Heading extends PageLinesSection {
 			$heading1_weight          = ($this->opt('heading1_weight')) ? ' fw-'.$this->opt('heading1_weight') : '';
 			$heading1_text_transform  = ($this->opt('heading1_text_transform')) ? ' text-'.$this->opt('heading1_text_transform') : '';
 			$heading1_italic          = ($this->opt('heading1_italic')) ? ' text-italic' : '';
+			$heading1_link_url        = ($this->opt('heading1_link_url')) ? $this->opt('heading1_link_url') : '';
+			$heading1_link_target     = ($this->opt('heading1_target')) ? ' target="' . $this->opt('heading1_target') . '"' : '';
   
 			$heading2_type            = ($this->opt('heading2_type')) ? $this->opt('heading2_type') : 'secondary';
 			$heading2_tag             = ($this->opt('heading2_tag')) ? $this->opt('heading2_tag') : 'h3';
@@ -183,6 +199,8 @@ class SMS_Heading extends PageLinesSection {
 			$heading2_weight          = ($this->opt('heading2_weight')) ? ' fw-'.$this->opt('heading2_weight') : '';
 			$heading2_text_transform  = ($this->opt('heading2_text_transform')) ? ' text-'.$this->opt('heading2_text_transform') : '';
 			$heading2_italic          = ($this->opt('heading2_italic')) ? ' text-italic' : '';
+			$heading2_link_url        = ($this->opt('heading2_link_url')) ? $this->opt('heading2_link_url') : '';
+			$heading2_link_target     = ($this->opt('heading2_target')) ? ' target="' . $this->opt('heading2_target') . '"' : '';
 
 			$heading1_classes = "{$heading1_align}{$heading1_weight}{$heading1_text_transform}{$heading1_italic}";
 			$heading2_classes = "{$heading2_align}{$heading2_weight}{$heading2_text_transform}{$heading2_italic}";
@@ -235,7 +253,7 @@ class SMS_Heading extends PageLinesSection {
 
 				}
 
-				// If anything was added, wrap it in a div
+				// If anything was added to indicator output var, wrap it all in a div
 				if($indicator_output){
 					// <span class='sms-heading-indicator-wrap-title'>Heading #1 Active Overrides</span>
 					$indicator_output = "<div class='sms-heading-indicator-wrap'>".$indicator_output."</div>";
@@ -299,11 +317,18 @@ class SMS_Heading extends PageLinesSection {
 
 			}
 
-
 			$output_heading1 = sprintf('<%2$s class="sms-heading sms-heading--%1$s%4$s">%3$s</%2$s>', $heading1_type, $heading1_tag, $heading1_text, $heading1_classes);
-			
-		
+			if( $heading1_link_url ){
+				// Wrap in an A tag
+				$output_heading1 = sprintf('<a href="%1s"%2s class="sms-heading-link">%3s</a>', $heading1_link_url, $heading1_target, $output_heading1);
+			}
+
+
 			$output_heading2 = sprintf('<%2$s class="sms-heading sms-heading--%1$s%4$s">%3$s</%2$s>', $heading2_type, $heading2_tag, $heading2_text, $heading2_classes);
+			if( $heading2_link_url ){
+				// Wrap in an A tag
+				$output_heading2 = sprintf("<a href='%1s'%2s class='sms-heading-link'>%3s</a>", $heading2_link_url, $heading2_target, $output_heading2);
+			}
 
 			if( $this->opt('heading2_enable') ){
 				$output = '<hgroup>'.$output_heading1.$output_heading2.'</hgroup>';
