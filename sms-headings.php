@@ -10,6 +10,9 @@ Section: true
 Class Name: SMS_Heading
 Filter: component
 Loading: active
+Text Domain: dms-sms
+Bitbucket Plugin URI: https://bitbucket.org/roadsidemultimedia/sms-headings
+Bitbucket Branch: master
 */
 
 /**
