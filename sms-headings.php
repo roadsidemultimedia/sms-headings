@@ -2,6 +2,8 @@
 /*
 Plugin Name: SMS Headings
 Plugin URI: https://github.com/roadsidemultimedia/sms-headings
+GitHub Plugin URI: roadsidemultimedia/sms-headings/
+GitHub Branch: master
 Description: Add headings to the site using global styles to decide how they appear
 Author: Roadside Multimedia
 PageLines: true
@@ -11,8 +13,6 @@ Class Name: SMS_Heading
 Filter: component
 Loading: active
 Text Domain: dms-sms
-GitHub Plugin URI: https://github.com/roadsidemultimedia/sms-headings
-GitHub Branch: master
 */
 
 /**
