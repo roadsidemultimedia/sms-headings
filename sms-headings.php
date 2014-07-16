@@ -26,11 +26,24 @@ if( ! class_exists( 'PageLinesSectionFactory' ) )
 
 class SMS_Heading extends PageLinesSection {
 
-	function section_head() {
+	public function __construct(){
+		$dir = plugin_dir_path( __FILE__ );
+		add_filter( 'pless_vars', array(&$this,'custom_less_vars') );
+	}
+	// Custom LESS Vars
+	public function custom_less_vars($less){
+		// $less['custom_url_var'] = sprintf( "\"%s\"", "http://lorempixel.com/50/50/nature/" );
+		// $less['custom_string_var'] = "superVar9000";
+
+		return $less;
+	}
+
+
+	public function section_head() {
 		add_action( 'pl_scripts_on_ready', array( $this, 'script' ) );
 	}
 
-	function script() {
+	public function script() {
 
 		/*
 		// Remove padding that Pagelines adds to all sections
@@ -42,7 +55,7 @@ class SMS_Heading extends PageLinesSection {
 		
 	}
 
-	function section_opts(){
+	public function section_opts(){
 
 
 			global $sms_utils;
@@ -56,8 +69,8 @@ class SMS_Heading extends PageLinesSection {
 			$text_align_choices = $sms_utils->convert_redux_choices_to_dms( $sms_options['fonts']['text-alignment-list'] );
 			$line_height_choices = $sms_utils->convert_redux_choices_to_dms( $sms_options['fonts']['line-height-list'] );
 
-			$text_transform_choices = $sms_utils->filter_out_redundant_css_properties( $sms_options['fonts']['text-transform-list'] );
-			$text_transform_choices = $sms_utils->convert_redux_choices_to_dms( $text_transform_choices );
+			$text_transform_choices_raw = $sms_utils->filter_out_redundant_css_properties( $sms_options['fonts']['text-transform-list'] );
+			$text_transform_choices = $sms_utils->convert_redux_choices_to_dms( $text_transform_choices_raw );
 
 			$heading_type_choices = $sms_utils->convert_redux_choices_to_dms( $sms_options['fonts']['heading-type-list'] );
 
@@ -181,7 +194,7 @@ class SMS_Heading extends PageLinesSection {
 
 			return $options;
 		}
-		function section_template(){
+		public function section_template(){
 
 			$sms_options = get_option('sms_options');
 
