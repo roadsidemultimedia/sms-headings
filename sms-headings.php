@@ -5,7 +5,7 @@ Plugin URI: http://www.roadsidemultimedia.com
 Description: Add headings to the site using global styles to decide how they appear
 Author: Roadside Multimedia
 PageLines: true
-Version: 1.0
+Version: 1.0.1
 Section: true
 Class Name: SMS_Heading
 Filter: component
@@ -27,7 +27,6 @@ if( ! class_exists( 'PageLinesSectionFactory' ) )
 class SMS_Heading extends PageLinesSection {
 
 	public function __construct(){
-		$dir = plugin_dir_path( __FILE__ );
 		add_filter( 'pless_vars', array(&$this,'custom_less_vars') );
 	}
 	// Custom LESS Vars
