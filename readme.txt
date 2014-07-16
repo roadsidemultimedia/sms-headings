@@ -1,11 +1,15 @@
 === SMS Headings ===
-Tested up to: 3.8.1
+Version: 1.0.3.0
+Stable Tag: 1.0.3.0
 Requires at least: 3.7
-Stable Tag: 1.0.2
+Tested up to: 3.8.1
 
 == Description ==
 
 == Changelog ==
+
+= 1.0.3.0 =
+* Testing
 
 = 1.0.2 =
 * Testing

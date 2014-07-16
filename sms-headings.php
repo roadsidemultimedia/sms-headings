@@ -5,7 +5,7 @@ Plugin URI: http://www.roadsidemultimedia.com
 Description: Add headings to the site using global styles to decide how they appear
 Author: Roadside Multimedia
 PageLines: true
-Version: 1.0.2
+Version: 1.0.3.0
 Section: true
 Class Name: SMS_Heading
 Filter: component
