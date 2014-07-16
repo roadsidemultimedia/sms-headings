@@ -11,7 +11,7 @@ Class Name: SMS_Heading
 Filter: component
 Loading: active
 Text Domain: dms-sms
-GitHub Plugin URI: roadsidemultimedia/sms-headings/
+GitHub Plugin URI: https://github.com/roadsidemultimedia/sms-headings/
 GitHub Branch: master
 */
 
