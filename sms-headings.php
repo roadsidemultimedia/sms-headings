@@ -5,14 +5,14 @@ Plugin URI: http://www.roadsidemultimedia.com
 Description: Add headings to the site using global styles to decide how they appear
 Author: Roadside Multimedia
 PageLines: true
-Version: 1.0.3.0
+Version: 1.0.3
 Section: true
 Class Name: SMS_Heading
 Filter: component
 Loading: active
 Text Domain: dms-sms
-Bitbucket Plugin URI: https://bitbucket.org/roadsidemultimedia/sms-headings
-Bitbucket Branch: master
+GitHub Plugin URI: https://bitbucket.org/roadsidemultimedia/sms-headings
+GitHub Branch: master
 */
 
 /**
