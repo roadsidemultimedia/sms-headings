@@ -6,14 +6,15 @@ Description:       Add headings to the site using global styles to decide how th
 Version:           1.0.1
 GitHub Plugin URI: https://github.com/roadsidemultimedia/sms-headings
 GitHub Branch:     master
-Author:            Roadside Multimedia
-PageLines:         true
-Section:           true
-Class Name:        SMS_Heading
-Filter:            component
-Loading:           active
-Text Domain:       sms-headings
 */
+
+// Author:            Roadside Multimedia
+// PageLines:         true
+// Section:           true
+// Class Name:        SMS_Heading
+// Filter:            component
+// Loading:           active
+// Text Domain:       sms-headings
 
 /**
  * IMPORTANT
