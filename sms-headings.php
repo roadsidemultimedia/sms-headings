@@ -1,20 +1,19 @@
 <?php
 /*
-Plugin Name:       SMS Headings
-Plugin URI:        https://github.com/roadsidemultimedia/sms-headings
-Description:       Add headings to the site using global styles to decide how they appear
-Version:           1.0.1
-GitHub Plugin URI: https://github.com/roadsidemultimedia/sms-headings
-GitHub Branch:     master
+Plugin Name: SMS Headings
+Plugin URI: https://bitbucket.org/roadsidemultimedia/sms-headings/
+Description: Add headings to the site using global styles to decide how they appear
+Author: Roadside Multimedia
+Version: 1.0.1
+Bitbucket Plugin URI: https://bitbucket.org/roadsidemultimedia/sms-headings/
+Bitbucket Branch: master
+PageLines: true
+Section: true
+Class Name: SMS_Heading
+Filter: component, nav
+Loading: active
+Text Domain: dms-sms
 */
-
-// Author:            Roadside Multimedia
-// PageLines:         true
-// Section:           true
-// Class Name:        SMS_Heading
-// Filter:            component
-// Loading:           active
-// Text Domain:       sms-headings
 
 /**
  * IMPORTANT
@@ -28,13 +27,13 @@ if( ! class_exists( 'PageLinesSectionFactory' ) )
 class SMS_Heading extends PageLinesSection {
 
 	public function __construct(){
+		parent::__construct();
 		add_filter( 'pless_vars', array(&$this,'custom_less_vars') );
 	}
 	// Custom LESS Vars
 	public function custom_less_vars($less){
-		// $less['custom_url_var'] = sprintf( "\"%s\"", "http://lorempixel.com/50/50/nature/" );
-		// $less['custom_string_var'] = "superVar9000";
-
+		// $less['example_url_var'] = sprintf( "\"%s\"", "http://lorempixel.com/50/50/nature/" );
+		// $less['example_string_var'] = "superVar9000";
 		return $less;
 	}
 
