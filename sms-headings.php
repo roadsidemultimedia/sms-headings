@@ -4,7 +4,7 @@ Plugin Name: SMS Headings
 Plugin URI: https://bitbucket.org/roadsidemultimedia/sms-headings/
 Description: Add headings to the site using global styles to decide how they appear
 Author: Roadside Multimedia
-Version: 1.0.1
+Version: 1.0.2
 Bitbucket Plugin URI: https://bitbucket.org/roadsidemultimedia/sms-headings/
 Bitbucket Branch: master
 PageLines: true
@@ -28,13 +28,22 @@ class SMS_Heading extends PageLinesSection {
 
 	public function __construct(){
 		parent::__construct();
-		add_filter( 'pless_vars', array(&$this,'custom_less_vars') );
+		// add_filter( 'pagelines_lesscode', array(&$this,'custom_less_output') );
+		// add_filter( 'pless_vars', array(&$this,'custom_less_vars') );
+	}
+
+	//Custom LESS markup
+	function custom_less_output($less_output){
+    // $less_output .= pl_file_get_contents( dirname( __FILE__ ) . '/file.less' );
+    // $less_output .= '.shazbot-7-24{color:#f90; border: 5px dashed #fff;}';
+		return $less_output;
 	}
 	// Custom LESS Vars
-	public function custom_less_vars($less){
-		// $less['example_url_var'] = sprintf( "\"%s\"", "http://lorempixel.com/50/50/nature/" );
-		// $less['example_string_var'] = "superVar9000";
-		return $less;
+	public function custom_less_vars($less_vars){
+		// $less_vars['sms_heading_path'] = sprintf( "\"%s\"", $this->base_url );
+		// $less_vars['example_url_var'] = sprintf( "\"%s\"", "http://lorempixel.com/50/50/nature/" );
+		// $less_vars['example_string_var'] = "superVar9000";
+		return $less_vars;
 	}
 
 
