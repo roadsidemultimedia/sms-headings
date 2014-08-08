@@ -290,64 +290,7 @@ class SMS_Heading extends PageLinesSection {
 
 				// If anything was added to indicator output var, wrap it all in a div
 				if($indicator_output){
-					// <span class='sms-heading-indicator-wrap-title'>Heading #1 Active Overrides</span>
-					$indicator_output = "<div class='sms-heading-indicator-wrap'>".$indicator_output."</div>";
-
-					$indicator_css = "
-
-						.sms-heading-indicator-wrap{
-							visibility: hidden;
-							display: none;
-							position: absolute;
-							top: auto;
-							bottom: 100%;
-							margin-bottom: 2px;
-							width: 100%;
-							text-align: center;
-							font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;
-							background: rgba(0,0,0,0.5);
-						}
-						.drag-drop-editing .section-sms-headings:hover .sms-heading-indicator-wrap{
-							visibility: visible;
-							display: block;
-							z-index: 101;
-						}
-
-						.sms-heading-indicator-wrap .row ~ .row{
-							border-top: 1px solid rgba(255,255,255,.3);
-						}
-
-						.sms-heading-indicator-wrap-title{
-							font-size: 12px;
-							margin-right: 10px;
-							text-transform: uppercase;
-							color: #fff;
-						}
-
-
-						.sms-indicator {
-							font-size: 12px;
-							display: inline-block;
-							margin-right: 5px;
-							margin-top: 2px;
-							margin-bottom: 2px;
-							background: rgba(0,0,0,.2);
-							border: solid 1px rgba(255,255,255,.4);
-							color: #fff;
-							padding-left: 8px;
-							padding-right: 8px;
-							border-radius: 10px;
-						}
-						.sms-indicator span{
-							margin-left: 5px;
-						}
-						.sms-indicator-light {
-							background: none;
-							border: none;
-							float: left;
-						}
-						";
-					$indicator_output .= inline_css_markup('sms-heading-indicator-css', $indicator_css, false);
+					$indicator_output = "<div class='sms-indicator-wrap'>".$indicator_output."</div>";
 				}
 
 			}
