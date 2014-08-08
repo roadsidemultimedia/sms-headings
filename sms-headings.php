@@ -5,7 +5,7 @@ Plugin URI: https://bitbucket.org/roadsidemultimedia/sms-headings/
 Description: Add headings to the site using global styles to decide how they appear
 Author: Roadside Multimedia
 Version: 1.0.2
-Bitbucket Plugin URI: https://bitbucket.org/roadsidemultimedia/sms-headings/
+Bitbucket Plugin URI: https://bitbucket.org/roadsidemultimedia/sms-headings
 Bitbucket Branch: master
 PageLines: true
 Section: true
@@ -34,8 +34,8 @@ class SMS_Heading extends PageLinesSection {
 
 	//Custom LESS markup
 	function custom_less_output($less_output){
-    // $less_output .= pl_file_get_contents( dirname( __FILE__ ) . '/file.less' );
-    // $less_output .= '.shazbot-7-24{color:#f90; border: 5px dashed #fff;}';
+		// $less_output .= pl_file_get_contents( dirname( __FILE__ ) . '/file.less' );
+		// $less_output .= '.shazbot-7-24{color:#f90; border: 5px dashed #fff;}';
 		return $less_output;
 	}
 	// Custom LESS Vars
@@ -149,6 +149,13 @@ class SMS_Heading extends PageLinesSection {
 					'opts'          => $text_transform_choices,
 				),
 				array(
+					'type'          => 'count_select',
+					'key'           => 'letter_spacing',
+					'title'         => 'Letter Spacing',
+					'count_start'   => 0,
+					'count_number'  => 40,
+				),
+				array(
 					'type'          => 'text',
 					'title'         => 'Link URL',
 					'key'           => 'link_url',
@@ -184,11 +191,13 @@ class SMS_Heading extends PageLinesSection {
 							'key'   => "heading{$i}_{$field['key']}",
 							'type'  => $field['type'],
 							'opts'  => $field['opts'],
+							'count_start'  => $field['count_start'],
+							'count_number'  => $field['count_number'],
 						);
 					}
 					$j++;
 
-				}
+				} // end foreach loop
 
 				$options[] = array(
 					'title' => 'Heading #'.$i,
@@ -212,6 +221,7 @@ class SMS_Heading extends PageLinesSection {
 			$heading1_align           = ($this->opt('heading1_align')) ? ' align-'.$this->opt('heading1_align').'i' : '';
 			$heading1_weight          = ($this->opt('heading1_weight')) ? ' fw-'.$this->opt('heading1_weight').'i' : '';
 			$heading1_text_transform  = ($this->opt('heading1_text_transform')) ? ' text-'.$this->opt('heading1_text_transform') : '';
+			$heading1_letter_spacing  = ($this->opt('heading1_letter_spacing')) ? ' ls-'.($this->opt('heading1_letter_spacing')) : '';
 			$heading1_italic          = ($this->opt('heading1_italic')) ? ' text-italici' : '';
 			$heading1_link_url        = ($this->opt('heading1_link_url')) ? $this->opt('heading1_link_url') : '';
 			$heading1_link_target     = ($this->opt('heading1_target')) ? ' target="' . $this->opt('heading1_target') . '"' : '';
@@ -222,12 +232,13 @@ class SMS_Heading extends PageLinesSection {
 			$heading2_align           = ($this->opt('heading2_align')) ? ' align-'.$this->opt('heading2_align').'i' : '';
 			$heading2_weight          = ($this->opt('heading2_weight')) ? ' fw-'.$this->opt('heading2_weight').'i' : '';
 			$heading2_text_transform  = ($this->opt('heading2_text_transform')) ? ' text-'.$this->opt('heading2_text_transform') : '';
+			$heading2_letter_spacing  = ($this->opt('heading2_letter_spacing')) ? ' ls-'.($this->opt('heading2_letter_spacing')) : '';
 			$heading2_italic          = ($this->opt('heading2_italic')) ? ' text-italici' : '';
 			$heading2_link_url        = ($this->opt('heading2_link_url')) ? $this->opt('heading2_link_url') : '';
 			$heading2_link_target     = ($this->opt('heading2_target')) ? ' target="' . $this->opt('heading2_target') . '"' : '';
 
-			$heading1_classes = "{$heading1_align}{$heading1_weight}{$heading1_text_transform}{$heading1_italic}";
-			$heading2_classes = "{$heading2_align}{$heading2_weight}{$heading2_text_transform}{$heading2_italic}";
+			$heading1_classes = "{$heading1_align}{$heading1_weight}{$heading1_letter_spacing}{$heading1_text_transform}{$heading1_italic}";
+			$heading2_classes = "{$heading2_align}{$heading2_weight}{$heading2_letter_spacing}{$heading2_text_transform}{$heading2_italic}";
 
 
 			$indicator_output = '';
