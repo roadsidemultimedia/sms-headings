@@ -209,20 +209,20 @@ class SMS_Heading extends PageLinesSection {
 			$heading1_type            = ($this->opt('heading1_type')) ? $this->opt('heading1_type') : 'primary';
 			$heading1_tag             = ($this->opt('heading1_tag')) ? $this->opt('heading1_tag') : 'h2';
 			$heading1_text            = ($this->opt('heading1_text')) ? $this->opt('heading1_text') : 'Default heading text';
-			$heading1_align           = ($this->opt('heading1_align')) ? ' align-'.$this->opt('heading1_align') : '';
-			$heading1_weight          = ($this->opt('heading1_weight')) ? ' fw-'.$this->opt('heading1_weight') : '';
+			$heading1_align           = ($this->opt('heading1_align')) ? ' align-'.$this->opt('heading1_align').'i' : '';
+			$heading1_weight          = ($this->opt('heading1_weight')) ? ' fw-'.$this->opt('heading1_weight').'i' : '';
 			$heading1_text_transform  = ($this->opt('heading1_text_transform')) ? ' text-'.$this->opt('heading1_text_transform') : '';
-			$heading1_italic          = ($this->opt('heading1_italic')) ? ' text-italic' : '';
+			$heading1_italic          = ($this->opt('heading1_italic')) ? ' text-italici' : '';
 			$heading1_link_url        = ($this->opt('heading1_link_url')) ? $this->opt('heading1_link_url') : '';
 			$heading1_link_target     = ($this->opt('heading1_target')) ? ' target="' . $this->opt('heading1_target') . '"' : '';
-  
+	
 			$heading2_type            = ($this->opt('heading2_type')) ? $this->opt('heading2_type') : 'secondary';
 			$heading2_tag             = ($this->opt('heading2_tag')) ? $this->opt('heading2_tag') : 'h3';
 			$heading2_text            = ($this->opt('heading2_text')) ? $this->opt('heading2_text') : 'Default subheading text';
-			$heading2_align           = ($this->opt('heading2_align')) ? ' align-'.$this->opt('heading2_align') : '';
-			$heading2_weight          = ($this->opt('heading2_weight')) ? ' fw-'.$this->opt('heading2_weight') : '';
+			$heading2_align           = ($this->opt('heading2_align')) ? ' align-'.$this->opt('heading2_align').'i' : '';
+			$heading2_weight          = ($this->opt('heading2_weight')) ? ' fw-'.$this->opt('heading2_weight').'i' : '';
 			$heading2_text_transform  = ($this->opt('heading2_text_transform')) ? ' text-'.$this->opt('heading2_text_transform') : '';
-			$heading2_italic          = ($this->opt('heading2_italic')) ? ' text-italic' : '';
+			$heading2_italic          = ($this->opt('heading2_italic')) ? ' text-italici' : '';
 			$heading2_link_url        = ($this->opt('heading2_link_url')) ? $this->opt('heading2_link_url') : '';
 			$heading2_link_target     = ($this->opt('heading2_target')) ? ' target="' . $this->opt('heading2_target') . '"' : '';
 
