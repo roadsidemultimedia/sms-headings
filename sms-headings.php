@@ -249,6 +249,10 @@ class SMS_Heading extends PageLinesSection {
 		public function section_template(){
 
 			global $sms_utils;
+			global $pldraft;
+			$edit = false;
+			if( is_object( $pldraft ) && 'draft' == $pldraft->mode )
+				$edit = true;
 
 			$sms_options = get_option('sms_options');
 
@@ -385,14 +389,14 @@ class SMS_Heading extends PageLinesSection {
 				$indicator_output .= "</div>\n";
 			}
 
-			$output_heading1 = sprintf('<%2$s class="sms-heading sms-heading--%1$s%4$s">%3$s</%2$s>', $heading1_type, $heading1_tag, $heading1_text, $heading1_classes);
+			$output_heading1 = sprintf('<%2$s class="sms-heading sms-heading--%1$s%4$s" data-sync="heading1_text">%3$s</%2$s>', $heading1_type, $heading1_tag, $heading1_text, $heading1_classes);
 			if( $heading1_link_url ){
 				// Wrap in an A tag
 				$output_heading1 = sprintf('<a href="%1s"%2s class="sms-heading-link">%3s</a>', $heading1_link_url, $heading1_target, $output_heading1);
 			}
 
 
-			$output_heading2 = sprintf('<%2$s class="sms-heading sms-heading--%1$s%4$s">%3$s</%2$s>', $heading2_type, $heading2_tag, $heading2_text, $heading2_classes);
+			$output_heading2 = sprintf('<%2$s class="sms-heading sms-heading--%1$s%4$s" data-sync="heading2_text">%3$s</%2$s>', $heading2_type, $heading2_tag, $heading2_text, $heading2_classes);
 			if( $heading2_link_url ){
 				// Wrap in an A tag
 				$output_heading2 = sprintf("<a href='%1s'%2s class='sms-heading-link'>%3s</a>", $heading2_link_url, $heading2_target, $output_heading2);

@@ -3,6 +3,7 @@
 #### 1.1.0
 
 * This update requires SMS version 1.0.6 or newer and DMS Skeleton theme version 0.6.0 or newer.
+* Text updates in realtime now!
 * Default text only displays in the editor now.
 * Added viewport animation options. Animations are triggered when the heading becomes visible in the viewport.
 * Revamped indicators
