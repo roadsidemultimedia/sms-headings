@@ -262,12 +262,12 @@ class SMS_Heading extends PageLinesSection {
 			$heading1_align           = ($this->opt('heading1_align'))          ? ' align-'.$this->opt('heading1_align').'i'        : '';
 			$heading1_weight          = ($this->opt('heading1_weight'))         ? ' fw-'.$this->opt('heading1_weight').'i'          : '';
 			$heading1_text_transform  = ($this->opt('heading1_text_transform')) ? ' text-'.$this->opt('heading1_text_transform')    : '';
-			$heading1_letter_spacing  = ($this->opt('heading1_letter_spacing')) ? ' ls-'.($this->opt('heading1_letter_spacing'))    : '';
+			$heading1_letter_spacing  = ($this->opt('heading1_letter_spacing')) ? ' ls-'.($this->opt('heading1_letter_spacing')).'i': '';
 			$heading1_line_height     = ($this->opt('heading1_line_height'))    ? ' '.($this->opt('heading1_line_height')).'i'      : '';
 			$heading1_italic          = ($this->opt('heading1_italic'))         ? ' text-italici'                                   : '';
 			$heading1_link_url        = ($this->opt('heading1_link_url'))       ? $this->opt('heading1_link_url')                   : '';
 			$heading1_link_target     = ($this->opt('heading1_target'))         ? ' target="' . $this->opt('heading1_target') . '"' : '';
-			$heading1_animation       = ($this->opt('heading1_animation'))      ? ' pl-animation '.$this->opt('heading1_animation')                  : '';
+			$heading1_animation       = ($this->opt('heading1_animation'))      ? ' pl-animation '.$this->opt('heading1_animation') : '';
 	
 			$heading2_type            = ($this->opt('heading2_type'))           ? $this->opt('heading2_type')                       : 'secondary';
 			$heading2_tag             = ($this->opt('heading2_tag'))            ? $this->opt('heading2_tag')                        : 'h3';
@@ -275,12 +275,12 @@ class SMS_Heading extends PageLinesSection {
 			$heading2_align           = ($this->opt('heading2_align'))          ? ' align-'.$this->opt('heading2_align').'i'        : '';
 			$heading2_weight          = ($this->opt('heading2_weight'))         ? ' fw-'.$this->opt('heading2_weight').'i'          : '';
 			$heading2_text_transform  = ($this->opt('heading2_text_transform')) ? ' text-'.$this->opt('heading2_text_transform')    : '';
-			$heading2_letter_spacing  = ($this->opt('heading2_letter_spacing')) ? ' ls-'.($this->opt('heading2_letter_spacing'))    : '';
+			$heading2_letter_spacing  = ($this->opt('heading2_letter_spacing')) ? ' ls-'.($this->opt('heading2_letter_spacing')).'i': '';
 			$heading2_line_height     = ($this->opt('heading2_line_height'))    ? ' '.($this->opt('heading2_line_height')).'i'      : '';
 			$heading2_italic          = ($this->opt('heading2_italic'))         ? ' text-italici'                                   : '';
 			$heading2_link_url        = ($this->opt('heading2_link_url'))       ? $this->opt('heading2_link_url')                   : '';
 			$heading2_link_target     = ($this->opt('heading2_target'))         ? ' target="' . $this->opt('heading2_target') . '"' : '';
-			$heading2_animation       = ($this->opt('heading2_animation'))      ? ' pl-animation '.$this->opt('heading2_animation')                  : '';
+			$heading2_animation       = ($this->opt('heading2_animation'))      ? ' pl-animation '.$this->opt('heading2_animation')  : '';
 
 			$heading1_classes = "{$heading1_align}{$heading1_weight}{$heading1_letter_spacing}{$heading1_text_transform}{$heading1_line_height}{$heading1_italic}{$heading1_animation}";
 			$heading2_classes = "{$heading2_align}{$heading2_weight}{$heading2_letter_spacing}{$heading2_text_transform}{$heading2_line_height}{$heading2_italic}{$heading2_animation}";
@@ -313,7 +313,7 @@ class SMS_Heading extends PageLinesSection {
 						array(
 							'icon'    => "fa-italic",
 							'data'    => $this->opt('heading1_italic'),
-							'content' => "<strong>{$this->opt('heading1_italic')}</strong>",
+							'content' => "italic",
 							),
 						array(
 							'icon'    => "fa-bold",
@@ -324,6 +324,16 @@ class SMS_Heading extends PageLinesSection {
 							'icon'    => "fa-text-height",
 							'data'    => $this->opt('heading1_text_transform'),
 							'content' => "{$this->opt('heading1_text_transform')}",
+							),
+						array(
+							'icon'    => "fa-arrows-v",
+							'data'    => $this->opt('heading1_line_height'),
+							'content' => "line-height: ".$this->filter_line_height_string( $this->opt('heading1_line_height') ),
+							),
+						array(
+							'icon'    => "fa-text-width",
+							'data'    => $this->opt('heading1_letter_spacing'),
+							'content' => 'letter spacing: '.$this->opt('heading1_letter_spacing'),
 							),
 						),
 					),
@@ -350,7 +360,7 @@ class SMS_Heading extends PageLinesSection {
 						array(
 							'icon'    => "fa-italic",
 							'data'    => $this->opt('heading2_italic'),
-							'content' => "<strong>{$this->opt('heading2_italic')}</strong>",
+							'content' => "italic",
 							),
 						array(
 							'icon'    => "fa-bold",
@@ -361,6 +371,16 @@ class SMS_Heading extends PageLinesSection {
 							'icon'    => "fa-text-height",
 							'data'    => $this->opt('heading2_text_transform'),
 							'content' => "{$this->opt('heading2_text_transform')}",
+							),
+						array(
+							'icon'    => "fa-arrows-v",
+							'data'    => $this->opt('heading2_line_height'),
+							'content' => "line-height: ".$this->filter_line_height_string( $this->opt('heading2_line_height') ),
+							),
+						array(
+							'icon'    => "fa-text-width",
+							'data'    => $this->opt('heading2_letter_spacing'),
+							'content' => 'letter spacing: '.$this->opt('heading2_letter_spacing'),
 							),
 						),
 					),
@@ -413,5 +433,11 @@ class SMS_Heading extends PageLinesSection {
 			}
 
 			echo $output;
+		}
+
+		function filter_line_height_string($string){
+			$string = str_replace('lh-','',$string);
+			$string = str_replace('-','.',$string);
+			return $string;
 		}
 }
